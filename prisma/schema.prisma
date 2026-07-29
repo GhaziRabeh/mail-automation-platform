@@ -1,0 +1,126 @@
+generator client {
+    provider = "prisma-client-js"
+}
+
+datasource db {
+    provider = "postgresql"
+    url      = env("DATABASE_URL")
+}
+
+enum ProspectStatus {
+    PENDING
+    QUEUED
+    SENT
+    FAILED
+    REPLIED
+}
+
+enum CampaignStatus {
+    DRAFT
+    RUNNING
+    PAUSED
+    FINISHED
+}
+
+enum EmailStatus {
+    PENDING
+    SENT
+    FAILED
+    OPENED
+    REPLIED
+}
+
+model Prospect {
+    id Int @id @default(autoincrement())
+
+    uuid String @unique @default(uuid())
+
+    company String
+
+    contactName String?
+
+    email String @unique
+
+    website String?
+
+    country String?
+
+    linkedin String?
+
+    notes String?
+
+    status ProspectStatus @default(PENDING)
+
+    createdAt DateTime @default(now())
+
+    updatedAt DateTime @updatedAt
+
+    emailLogs EmailLog[]
+    followUps FollowUp[]
+}
+
+model Campaign {
+    id Int @id @default(autoincrement())
+
+    uuid String @unique @default(uuid())
+
+    name String
+
+    subject String
+
+    template String
+
+    status CampaignStatus @default(DRAFT)
+
+    createdAt DateTime @default(now())
+
+    updatedAt DateTime @updatedAt
+
+    emailLogs EmailLog[]
+}
+
+model EmailLog {
+    id Int @id @default(autoincrement())
+
+    uuid String @unique @default(uuid())
+
+    prospectId Int
+
+    campaignId Int
+
+    subject String
+
+    status EmailStatus @default(PENDING)
+
+    sentAt DateTime?
+
+    openedAt DateTime?
+
+    repliedAt DateTime?
+
+    error String?
+
+    createdAt DateTime @default(now())
+
+    prospect Prospect @relation(fields: [prospectId], references: [id], onDelete: Cascade)
+
+    campaign Campaign @relation(fields: [campaignId], references: [id], onDelete: Cascade)
+}
+
+model FollowUp {
+    id Int @id @default(autoincrement())
+
+    uuid String @unique @default(uuid())
+
+    prospectId Int
+
+    step Int
+
+    scheduledAt DateTime
+
+    sent Boolean @default(false)
+
+    createdAt DateTime @default(now())
+
+    prospect Prospect @relation(fields: [prospectId], references: [id], onDelete: Cascade)
+}
