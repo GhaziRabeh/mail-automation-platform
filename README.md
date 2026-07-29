@@ -1,6 +1,6 @@
 # Mail Automation Platform
 
-A cold-email / outreach automation system built with **Node.js, TypeScript, Prisma, PostgreSQL, Redis, BullMQ, and Next.js**. Runs as five independent processes without Docker.
+A cold-email / outreach automation system built with **Node.js, TypeScript, Prisma, PostgreSQL, Redis, BullMQ, and Next.js**. Runs as five independent processes.
 
 It handles the full loop: import prospects → queue and send emails → detect replies via IMAP → schedule follow-ups → reflect it all live on a dashboard.
 
