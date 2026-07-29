@@ -429,19 +429,3 @@ npx prisma migrate reset
 ```
 
 ---
-
-## 11. Roadmap
-
-- [ ] JWT authentication
-- [ ] Role management
-- [ ] CSV import
-- [ ] Email templates
-- [ ] AI-personalized email content
-- [ ] Open tracking pixel
-- [ ] Click tracking
-- [ ] Bounce detection
-- [ ] Rate limiting
-- [ ] Multiple Gmail account support
-- [ ] Multi-tenant SaaS mode
-- [ ] Analytics dashboard
-- [ ] PostgreSQL-backed queue persistence
