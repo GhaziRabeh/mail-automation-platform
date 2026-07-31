@@ -14,8 +14,8 @@
     "build": "tsc",
 
     "start:api": "node dist/src/api/server.js",
-    "start:worker": "node dist/worker.server.js",
-    "start:mail": "node dist/mail.server.js",
+    "start:worker": "node dist/src/worker.server.js",
+    "start:mail": "node dist/src/mail.server.js",
 
     "prisma:generate": "prisma generate",
     "prisma:migrate": "prisma migrate dev",
