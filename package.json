@@ -13,7 +13,7 @@
 
     "build": "tsc",
 
-    "start:api": "node dist/api/server.js",
+    "start:api": "node dist/src/api/server.js",
     "start:worker": "node dist/worker.server.js",
     "start:mail": "node dist/mail.server.js",
 
