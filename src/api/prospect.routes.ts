@@ -1,48 +1,45 @@
 import { Router } from "express";
+
 import { prisma } from "../config/prisma";
+import { upload } from "../config/upload";
+import { importProspects } from "../controllers/import.controller";
 
 const router = Router();
 
-router.get(
-  "/prospects",
+router.get("/prospects", async (req, res) => {
+  const prospects = await prisma.prospect.findMany({
+    orderBy: {
+      createdAt: "desc",
+    },
+  });
 
-  async (req, res) => {
-    const prospects = await prisma.prospect.findMany({
-      orderBy: {
-        createdAt: "desc",
-      },
-    });
+  res.json(prospects);
+});
 
-    res.json(prospects);
-  },
-);
+router.get("/stats", async (req, res) => {
+  const total = await prisma.prospect.count();
 
-router.get(
-  "/stats",
+  const replied = await prisma.prospect.count({
+    where: {
+      status: "REPLIED",
+    },
+  });
 
-  async (req, res) => {
-    const total = await prisma.prospect.count();
+  const sent = await prisma.prospect.count({
+    where: {
+      status: "SENT",
+    },
+  });
 
-    const replied = await prisma.prospect.count({
-      where: {
-        status: "REPLIED",
-      },
-    });
+  res.json({
+    total,
+    sent,
+    replied,
+  });
+});
 
-    const sent = await prisma.prospect.count({
-      where: {
-        status: "SENT",
-      },
-    });
+// Excel Import
 
-    res.json({
-      total,
-
-      sent,
-
-      replied,
-    });
-  },
-);
+router.post("/import", upload.single("file"), importProspects);
 
 export default router;

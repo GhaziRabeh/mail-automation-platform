@@ -1,5 +1,4 @@
 import { Request, Response } from "express";
-
 import { startCampaign } from "../services/campaign.service";
 
 export async function launchCampaign(req: Request, res: Response) {
@@ -8,13 +7,13 @@ export async function launchCampaign(req: Request, res: Response) {
 
     const result = await startCampaign(campaignId);
 
-    res.json({
+    return res.json({
       success: true,
 
       result,
     });
   } catch (error: any) {
-    res.status(500).json({
+    return res.status(500).json({
       success: false,
 
       message: error.message,

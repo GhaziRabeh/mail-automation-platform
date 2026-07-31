@@ -1,30 +1,28 @@
-import { emailQueue } from "../queue/email.queue";
+import { Queue } from "bullmq";
+import { redis } from "../config/redis";
+
+export const emailQueue = new Queue("email-sending", {
+  connection: redis,
+});
 
 export async function addEmailJob(data: {
   email: string;
   company: string;
-  reason: string;
+  reason?: string;
   prospectId: number;
 }) {
-  await emailQueue.add(
-    "send-email",
+  console.log("Adding email job:", data.email);
 
-    data,
+  const job = await emailQueue.add("send-email", data, {
+    attempts: 3,
 
-    {
-      attempts: 3,
-
-      backoff: {
-        type: "exponential",
-
-        delay: 5000,
-      },
-
-      removeOnComplete: true,
-
-      removeOnFail: false,
+    backoff: {
+      type: "exponential",
+      delay: 5000,
     },
-  );
+  });
 
-  console.log("Email queued:", data.email);
+  console.log("Job created:", job.id);
+
+  return job;
 }

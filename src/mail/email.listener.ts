@@ -1,5 +1,4 @@
 import { ImapFlow } from "imapflow";
-
 import { simpleParser } from "mailparser";
 
 import { markAsReplied } from "../services/reply.service";
@@ -11,10 +10,10 @@ const client = new ImapFlow({
 
   secure: true,
 
-  auth:{
+  auth: {
     user: process.env.EMAIL!,
-    pass: process.env.APP_PASSWORD!.replaceAll(" ","")
-}
+    pass: process.env.APP_PASSWORD!.replaceAll(" ", ""),
+  },
 });
 
 export async function startEmailListener() {
@@ -29,16 +28,22 @@ export async function startEmailListener() {
       {
         seen: false,
       },
-
       {
         envelope: true,
-
         source: true,
       },
     )) {
+      // protect undefined source
+      if (!message.source) {
+        console.log("No source found");
+        continue;
+      }
+
       const parsed = await simpleParser(message.source);
 
       const from = parsed.from?.value[0]?.address;
+
+      console.log("Incoming mail from:", from);
 
       if (from) {
         await markAsReplied(from);
@@ -46,5 +51,7 @@ export async function startEmailListener() {
     }
   } finally {
     lock.release();
+
+    await client.logout();
   }
 }

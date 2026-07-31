@@ -1,6 +1,8 @@
 import { Request, Response } from "express";
+import fs from "fs/promises";
 
 import { importExcel } from "../services/excel.import.service";
+import { emitImport } from "../socket/socket.server";
 
 export async function importProspects(req: Request, res: Response) {
   try {
@@ -12,6 +14,11 @@ export async function importProspects(req: Request, res: Response) {
 
     const result = await importExcel(req.file.path);
 
+    await fs.unlink(req.file.path);
+
+    // realtime notification
+    emitImport(result);
+
     return res.json({
       message: "Import completed",
 
@@ -22,6 +29,8 @@ export async function importProspects(req: Request, res: Response) {
 
     return res.status(500).json({
       message: "Import failed",
+
+      error: error instanceof Error ? error.message : "Unknown error",
     });
   }
 }

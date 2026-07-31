@@ -4,7 +4,7 @@ import http from "http";
 
 import { initSocket } from "../socket/socket.server";
 import prospectRoutes from "./prospect.routes";
-
+import campaignRoutes from "../routes/campaign.routes";
 
 const app = express();
 
@@ -20,6 +20,13 @@ app.use(express.json());
 // API routes
 
 app.use("/api", prospectRoutes);
+app.use("/api", campaignRoutes);
+
+app.get("/api/test", (req, res) => {
+  res.json({
+    message: "API OK",
+  });
+});
 
 // HTTP SERVER
 
