@@ -2,19 +2,29 @@
   "name": "mail-automation",
   "version": "1.0.0",
   "description": "Cold Email Automation Platform",
-  "main": "dist/server.js",
+  "main": "dist/api/server.js",
+
   "scripts": {
     "dev": "nodemon",
+
+    "api": "tsx src/api/server.ts",
     "worker": "tsx src/worker.server.ts",
     "mail": "tsx src/mail.server.ts",
-    "api": "tsx src/api/server.ts",
+
     "build": "tsc",
-    "start": "node dist/server.js",
+
+    "start:api": "node dist/api/server.js",
+    "start:worker": "node dist/worker.server.js",
+    "start:mail": "node dist/mail.server.js",
+
     "prisma:generate": "prisma generate",
     "prisma:migrate": "prisma migrate dev",
+    "prisma:deploy": "prisma migrate deploy",
     "prisma:studio": "prisma studio",
+
     "seed": "tsx prisma/seed.ts"
   },
+
   "dependencies": {
     "@prisma/client": "^6.19.3",
     "bcrypt": "^6.0.0",
@@ -41,6 +51,7 @@
     "validator": "^13.15.35",
     "xlsx": "^0.18.5"
   },
+
   "devDependencies": {
     "@types/bcrypt": "^6.0.0",
     "@types/compression": "^1.8.1",
@@ -54,6 +65,7 @@
     "@types/nodemailer": "^8.0.1",
     "@types/socket.io": "^3.0.1",
     "@types/validator": "^13.15.10",
+
     "nodemon": "^3.1.10",
     "ts-node": "^10.9.2",
     "tsx": "^4.20.5",
