@@ -1,19 +1,109 @@
-node_modules
+# =========================
+# Node
+# =========================
 
-dist
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# =========================
+# Environment variables
+# =========================
 
 .env
+.env.*
+!.env.example
 
-coverage
+# =========================
+# Build output
+# =========================
 
-uploads
+dist/
+build/
+out/
 
-logs
+# =========================
+# TypeScript
+# =========================
 
-.vscode
+*.tsbuildinfo
 
-.idea
+# =========================
+# Prisma
+# =========================
 
-.prisma
+node_modules/.prisma/
+.prisma/
 
+# Keep Prisma schema and migrations
+# DO NOT ignore:
+# prisma/schema.prisma
+# prisma/migrations/
+
+# =========================
+# Tests
+# =========================
+
+coverage/
+.nyc_output/
+
+# =========================
+# Uploads / Files
+# =========================
+
+uploads/
+tmp/
+temp/
+
+# =========================
+# Logs
+# =========================
+
+logs/
 *.log
+
+# =========================
+# IDE
+# =========================
+
+.vscode/
+.idea/
+
+# =========================
+# OS
+# =========================
+
+.DS_Store
+Thumbs.db
+
+# =========================
+# Cache
+# =========================
+
+.cache/
+.parcel-cache/
+.next/
+.turbo/
+
+# =========================
+# Redis / Queue local files
+# =========================
+
+dump.rdb
+*.rdb
+
+# =========================
+# Docker
+# =========================
+
+.docker/
+
+# =========================
+# Generated files
+# =========================
+
+*.pid
+*.seed
+*.pid.lock
